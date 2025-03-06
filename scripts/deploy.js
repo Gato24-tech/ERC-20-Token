@@ -2,7 +2,7 @@ const { ethers } = require("hardhat");
 
 async function main() {
     const MyToken = await ethers.getContractFactory("MyToken");
-    const myToken = await MyToken.deploy("MiToken", "MTK");
+    const myToken = await MyToken.deploy(); // ✅ Sin argumentos
 
     await myToken.waitForDeployment();
 

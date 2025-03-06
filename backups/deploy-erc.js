@@ -1,18 +1,4 @@
 const { ethers } = require("hardhat");
-const fs = require ("fs");
-const path = require ("path");
-
-const deploymentsDir = path.join(__dirname, "../deployments");
-if (!fs.existsSync(deploymentsDir)){
-    fs.mkdirSync(deploymentsDir);
-}
-
-const deployedAddressPath = path.join(deploymentsDir, "deployedAddress.json");
-fs.writeFileSync(
-   deployedAddressPath,
-   JSON.stringgify({address: await myToken.getAddress() }, null, 2)
-);
-console.log('Dirección del contrato guardada en ${deployedAddressParh}');
 
 async function main() {
     const [owner, recipient] = await ethers.getSigners();
@@ -27,8 +13,6 @@ async function main() {
     const tx = await myToken.transfer(recipient.address, ethers.parseUnits("100", 18));
     await tx.wait();
     console.log(`Transferencia de 100 MTK realizada a ${recipient.address}`);
-
-
 
     const balanceRecipient = await myToken.balanceOf(recipient.address);
     console.log(`Balance del receptor: ${ethers.formatUnits(balanceRecipient, 18)} MTK`);

@@ -33,21 +33,24 @@ async function main() {
     const allowance = await myToken.allowance(owner.address, spender.address);
     console.log(`Allowance del Spender: ${ethers.formatUnits(allowance, decimals)} MTK`);
 
-    // Transferencia usando transferFrom() por el Spender
-    try {
-    const transferFromTx = await myToken.connect(spender).transferFrom(owner.address, recipient.address, ethers.parseUnits("100", decimals));
-    await transferFromTx.wait();
-    console.log(`Transferidos 120 MTK desde Owner a Recipient usando transferFrom()`);
-
-    // Mostrar balances finales
+       // Mostrar balances finales
     const balanceOwner = await myToken.balanceOf(owner.address);
     console.log(`Balance del Owner: ${ethers.formatUnits(balanceOwner, decimals)} MTK`);
 
     const balanceRecipient = await myToken.balanceOf(recipient.address);
     console.log(`Balance del Recipient: ${ethers.formatUnits(balanceRecipient, decimals)} MTK`);
-}
 
-catch( error) {
-    console.error(error);
-};
+     // Transferencia usando transferFrom() por el Spender
+     try {
+        const transferTooMuch = await myToken.connect(spender).transferFrom(
+            owner.address, 
+            recipient.address, 
+            ethers.parseUnits("120", decimals) // 120 MTK, más de lo aprobado
+        );
+        await transferTooMuch.wait();
+        console.log(`✅ Transferencia de 120 MTK realizada (esto NO debería pasar)`);
+    } catch (error) {
+        console.error(`❌ Error al intentar transferir más de lo aprobado: ${error.reason || error.message}`);
+    }
+    
 }

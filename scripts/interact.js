@@ -34,9 +34,10 @@ async function main() {
     console.log(`Allowance del Spender: ${ethers.formatUnits(allowance, decimals)} MTK`);
 
     // Transferencia usando transferFrom() por el Spender
-    const transferFromTx = await myToken.connect(spender).transferFrom(owner.address, recipient.address, ethers.parseUnits("50", decimals));
+    try {
+    const transferFromTx = await myToken.connect(spender).transferFrom(owner.address, recipient.address, ethers.parseUnits("100", decimals));
     await transferFromTx.wait();
-    console.log(`Transferidos 50 MTK desde Owner a Recipient usando transferFrom()`);
+    console.log(`Transferidos 120 MTK desde Owner a Recipient usando transferFrom()`);
 
     // Mostrar balances finales
     const balanceOwner = await myToken.balanceOf(owner.address);
@@ -46,7 +47,7 @@ async function main() {
     console.log(`Balance del Recipient: ${ethers.formatUnits(balanceRecipient, decimals)} MTK`);
 }
 
-main().catch((error) => {
+catch( error) {
     console.error(error);
-    process.exit(1);
-});
+};
+}

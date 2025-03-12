@@ -48,9 +48,13 @@ async function main() {
             ethers.parseUnits("120", decimals) // 120 MTK, más de lo aprobado
         );
         await transferTooMuch.wait();
-        console.log(`✅ Transferencia de 120 MTK realizada (esto NO debería pasar)`);
-    } catch (error) {
-        console.error(`❌ Error al intentar transferir más de lo aprobado: ${error.reason || error.message}`);
-    }
-    
+     } catch (error) {
+        console.log(`✅ Transferencia de 120 MTK realizada (esto NO debería pasar) ${error.reason ||error.message}`);
+    } 
 }
+    main().catch ((error) => {
+      console.error(error);
+      process.exit(1);
+
+    });  
+

@@ -16,18 +16,22 @@ async function main() {
     // Crear carpeta deployments si no existe
     const deploymentsDir = path.join(__dirname, "../deployments");
     if (!fs.existsSync(deploymentsDir)) {
-        fs.mkdirSync(deploymentsDir);
-    }
+    fs.mkdirSync(deploymentsDir); // Crear la carpeta si no existe
+}
 
-    // Guardar la dirección del contrato en un archivo JSON
+    const contractData = {
+    address: myToken.target, // Para Hardhat v2.22.19 y Ethers v6
+};
+
     fs.writeFileSync(
-        path.join(deploymentsDir, "MyToken.json"),
-        JSON.stringify({ address: contractAddress }, null, 2)
-    );
+    path.join(deploymentsDir, "MyToken.json"),
+    JSON.stringify(contractData, null, 2) // Guarda en formato JSON legible
+);
 
-    console.log(`Dirección guardada en deployments/MyToken.json`);
+    console.log(`✅ Dirección del contrato guardada en deployments/MyToken.json`);
 
-    // Transferencia de tokens
+
+       // Transferencia de tokens
     const tx = await myToken.transfer(recipient.address, ethers.parseUnits("100", 18));
     await tx.wait();
     console.log(`Transferencia de 100 MTK realizada a ${recipient.address}`);

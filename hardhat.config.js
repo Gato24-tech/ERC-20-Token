@@ -7,7 +7,14 @@ const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY || "";
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.28",
+  paths: {
+    artifacts: "./artifacts",
+    sources: "./contracts",
+    cache: "./cache",
+    import: "./node_modules", 
+  },
   networks: {
+    hardhat:{},
     localhost: {
       url: "http://127.0.0.1:8545",
     },

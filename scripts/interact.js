@@ -53,16 +53,13 @@ async function main() {
         console.log(`✅ Transferencia de 120 MTK realizada (esto NO debería pasar) ${error.reason ||error.message}`);
     } 
     // Transferencia usando transferFrom() por el Spenser (cantidad aprobada)
-    try {
-        const transferApproved = await myToken.connect(spender).transferFrom(
+            const transferApproved = await myToken.connect(spender).transferFrom(
             owner.address,
             recipient.address,
             ethers.parseUnits("100", decimals) //100 MTK, exactmente lo aprobado 
          );
          await transferApproved.wait();
          console.log(`Transferencia de 100 MTK realizada correctamente por el spender`);
-    } catch (error) {
-        console.error(`Error al intentar transferir 100 MTK: ${error.reason || error.message}`);
         
         // Aumentar el allowance en 50 MTK
         const increaseTx = await myToken.increaseAllowance(spender.address, ethers.parseUnits("50", decimals));
@@ -81,13 +78,13 @@ async function main() {
         
         //Consultar allowance actualizado después de la reducción
         const newAllowance2 = await myToken.allowance(owner.address, spender.address);
-        Console.log(`Allowance final del Spender: ${ ethers.formatUnits(newAllowance2, decimals)} MTK`);
+        console.log(`Allowance final del Spender: ${ ethers.formatUnits(newAllowance2, decimals)} MTK`);
             
         // Mostrar balances fianles
        const balanceOwnerFinal = await myToken.balanceOf(owner.address);
-       console.log(`Balance final del Ower: ${ethers.formatUnits(balanceRecipientFinal, decimals)} MTK`);
+       console.log(`Balance final del Ower: ${ethers.formatUnits(balanceOwnerFinal, decimals)} MTK`);
     }
-}
+
     main().catch ((error) => {
       console.error(error);
       process.exit(1);

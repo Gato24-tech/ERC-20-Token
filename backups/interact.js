@@ -51,22 +51,6 @@ async function main() {
      } catch (error) {
         console.log(`✅ Transferencia de 120 MTK realizada (esto NO debería pasar) ${error.reason ||error.message}`);
     } 
-    // Transferencia usando transferFrom() por el Spenser (cantidad aprobada)
-    try {
-        const transferApproved = await myToken.connect(spender).transferFrom(
-            owner.address,
-            recipient.address,
-            ethers.parseUnits("100", decimals) //100 MTK, exactmente lo aprobado 
-         );
-         await transferApproved.wait();
-         console.log(`Transferencia de 100 MTK realizada correctamente por el spender`);
-    } catch (error) {
-        console.error(`Error al intentar transferir 100 MTK: ${error.reason || error.message}`);
-        
-       // Mostrar balances fianles
-       const balanceOwnerFinal = await myToken.balanceOf(owner.address);
-       console.log(`Balance final del Ower: ${ethers.formatUnits(balanceRecipientFinal, decimals)} MTK`);
-    }
 }
     main().catch ((error) => {
       console.error(error);

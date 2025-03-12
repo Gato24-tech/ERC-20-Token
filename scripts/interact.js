@@ -1,6 +1,7 @@
 const { ethers } = require("hardhat");
 const fs = require("fs");
 const path = require("path");
+const { Console } = require("console");
 
 const deploymentsDir = path.join(__dirname, "../deployments");
 const contractJson = fs.readFileSync(path.join(deploymentsDir, "MyToken.json"), "utf-8");
@@ -63,7 +64,26 @@ async function main() {
     } catch (error) {
         console.error(`Error al intentar transferir 100 MTK: ${error.reason || error.message}`);
         
-       // Mostrar balances fianles
+        // Aumentar el allowance en 50 MTK
+        const increaseTx = await myToken.increaseAllowance(spender.address, ethers.parseUnits("50", decimals));
+        await increaseTx.wait();
+        console.log(`✅ Allowance incrementado en 50 MTK`);
+
+        // Consultar allowance actualizado
+        const newAllowance1 = await myToken.allowance(owner.address, spender.address);
+        console.log(`Nuevo allowance del Spender: ${ethers.formatUnits(newAllowance1, decimals)} MTK`);
+               
+ 
+        //Reducir el allowance en 30 MTK
+        const decreaseTx = await myToken.decreaseAllowance(spender.address, ethers.parseUnits("30", decimals));
+        await decreaseTx.wait();
+        console.log(`Allowance reducido en 30 MTK`);
+        
+        //Consultar allowance actualizado después de la reducción
+        const newAllowance2 = await myToken.allowance(owner.address, spender.address);
+        Console.log(`Allowance final del Spender: ${ ethers.formatUnits(newAllowance2, decimals)} MTK`);
+            
+        // Mostrar balances fianles
        const balanceOwnerFinal = await myToken.balanceOf(owner.address);
        console.log(`Balance final del Ower: ${ethers.formatUnits(balanceRecipientFinal, decimals)} MTK`);
     }

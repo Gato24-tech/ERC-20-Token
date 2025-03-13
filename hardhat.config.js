@@ -1,5 +1,7 @@
 require("@nomicfoundation/hardhat-ethers");
 require("dotenv").config();
+require("@nomicfoundation/hardhat-chai-matchers");
+
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
 const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY || "";

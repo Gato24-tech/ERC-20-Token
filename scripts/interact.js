@@ -85,7 +85,24 @@ async function main() {
         console.log(`🛠️ Evento Approval: ${owner} aprobó ${ethers.formatUnits(value, decimals)} MTK para ${spender}`);
     });
 }
+async function approveAndCheckAllowance() {
+const [owner, spender] = await ethers.getSigners(); // Obtener las cuentas automáticamente
+const tokenAddress = "0x..."; // Reemplázala con la dirección de tu contrato
+const token = await ethers.getContractAt("MyToken", tokenAddress, owner);
 
+const amount = ethers.parseUnits("10", 18); // Aprobar 10 tokens
+
+// Aprobar 10 tokens para el 'spender'
+const tx = await token.approve(spender.address, amount);
+await tx.wait(); // Esperar a que se mine la transacción
+console.log(`Aprobados ${ethers.formatUnits(amount, 18)} tokens para ${spender.address}`);
+
+// Verificar la cantidad aprobada con allowance()
+const allowance = await token.allowance(owner.address, spender.address);
+console.log(`Allowance actual: ${ethers.formatUnits(allowance, 18)} tokens`);
+
+approveAndCheckAllowance().catch(console.error);
+}
 main().catch((error) => {
     console.error(error);
     process.exit(1);
